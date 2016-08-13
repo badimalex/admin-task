@@ -1,0 +1,17 @@
+#   gem install pg
+#
+#   Ensure the Postgresql gem is defined in your Gemfile
+#   gem 'pg'
+#
+default: &default
+  adapter: postgresql
+  pool: 5
+  encoding: unicode
+
+development:
+  <<: *default
+  database: development
+
+test:
+  <<: *default
+  database: test
