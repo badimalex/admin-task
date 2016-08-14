@@ -1,0 +1,20 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    .error_messages
+      ul
+        - @user.errors.full_messages.each do |error_message|
+          li= error_message
+  p
+    = f.label :email
+    br/
+    = f.text_field :email
+  p
+    = f.label :password
+    br/
+    = f.password_field :password
+  p
+    = f.label :password_confirmation
+    br/
+    = f.password_field :password_confirmation
+  p
+    = f.submit t('auth.sign_up')

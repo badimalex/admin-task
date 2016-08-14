@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta content=('text/html; charset=UTF-8') http-equiv="Content-Type" /
+    title AdminTask
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    -if current_user
+      = link_to t('auth.sign_out_link'), sessions_destroy_path, method: :delete
+    -else
+      = link_to t('auth.sign_in_link'), new_session_path
+      = link_to t('auth.sign_up_link'), new_user_path
+
+    - flash.each do |name, msg|
+      = content_tag :div, msg, :id => "flash_#{name}"
+
+    = yield

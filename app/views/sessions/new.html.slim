@@ -1,0 +1,11 @@
+= form_for :user, url: sessions_path do |f|
+  p
+    = f.label :email
+    br/
+    = f.email_field :email, autofocus: true
+  p
+    = f.label :password
+    br/
+    = f.password_field :password, autocomplete: "off"
+  p
+    = f.submit t('auth.sign_in')
