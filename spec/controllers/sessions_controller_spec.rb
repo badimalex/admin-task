@@ -48,7 +48,7 @@ RSpec.describe SessionsController, type: :controller do
     describe 'DELETE #destroy' do
       it 'redirect to login' do
         delete :destroy
-        expect(response).to redirect_to new_session_path
+        expect(response).to redirect_to new_sessions_path
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe SessionsController, type: :controller do
       context 'with invalid attributes' do
         it 'renders #new template' do
           post :create, user: attributes_for(:user)
-          expect(response).to redirect_to new_session_path
+          expect(response).to redirect_to new_sessions_path
         end
       end
     end

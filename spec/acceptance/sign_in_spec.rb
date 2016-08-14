@@ -11,20 +11,21 @@ feature 'User sign in' do
   end
 
   scenario 'Non-registered user try to sign in' do
-    visit new_session_path
+    visit root_path
+    click_on I18n.t('auth.sign_in_link')
 
     fill_in 'Email', with: 'wrong@test.com'
     fill_in 'Password', with: '12345678'
     click_on I18n.t('auth.sign_in')
 
     expect(page).to have_content I18n.t('auth.failure.invalid', { authentication_keys: :email })
-    expect(current_path).to eq new_session_path
+    expect(current_path).to eq new_sessions_path
   end
 
   scenario 'already signed in user try to sign in' do
     sign_in user
 
-    visit new_session_path
+    visit new_sessions_path
 
     expect(page).to have_content I18n.t('auth.failure.already_authenticated')
 

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'tasks#index'
 
-  resources :sessions
+  resource :sessions, only: [:new, :create, :destroy]
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  delete 'sessions/destroy' => 'sessions#destroy'
+  # delete 'sessions/destroy' => 'sessions#destroy'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
