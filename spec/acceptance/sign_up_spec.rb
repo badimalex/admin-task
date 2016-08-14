@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User sign in' do
+feature 'User sign up' do
   let(:user) { create(:user) }
 
   scenario 'Non-registered user try to sign up' do
@@ -31,13 +31,7 @@ feature 'User sign in' do
   end
 
   scenario 'Authenticated user try to sign up' do
-    User.create!(email: 'user@test.com', password: '12345678')
-    visit root_path
-    click_on I18n.t('auth.sign_in_link')
-
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '12345678'
-    click_on I18n.t('auth.sign_in')
+    sign_in user
 
     expect(page).to_not have_link I18n.t('auth.sign_up_link')
   end

@@ -1,14 +1,10 @@
 require 'rails_helper'
 
 feature 'User sign out' do
+  let(:user) { create(:user) }
+
   scenario 'Authorized user try to sign out' do
-    User.create!(email: 'user@test.com', password: '12345678')
-
-    visit new_session_path
-
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '12345678'
-    click_on I18n.t('auth.sign_in')
+    sign_in user
 
     click_on I18n.t('auth.sign_out_link')
     expect(page).to have_content I18n.t('auth.sessions.signed_out')

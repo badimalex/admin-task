@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
   def authorize
     # redirect_to new_session_path unless current_user
   end
+
+  def already_authenticated
+    redirect_to root_path, flash: { alert: t('auth.failure.already_authenticated') } if current_user
+  end
 end

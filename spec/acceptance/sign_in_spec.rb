@@ -4,16 +4,9 @@ feature 'User sign in' do
   let(:user) { create(:user) }
 
   scenario 'Registered user try to sign in' do
-    User.create!(email: 'user@test.com', password: '12345678')
-
-    visit new_session_path
-
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '12345678'
-    click_on I18n.t('auth.sign_in')
+    sign_in user
 
     expect(page).to have_content I18n.t('auth.sessions.signed_in')
-
     expect(current_path).to eq root_path
   end
 
@@ -29,13 +22,7 @@ feature 'User sign in' do
   end
 
   scenario 'already signed in user try to sign in' do
-    User.create!(email: 'user@test.com', password: '12345678')
-
-    visit new_session_path
-
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '12345678'
-    click_on I18n.t('auth.sign_in')
+    sign_in user
 
     visit new_session_path
 

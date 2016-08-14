@@ -1,12 +1,11 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize, only: [:new, :create, :destroy]
+  before_action :already_authenticated, only: [:new, :create]
 
   def new
-    redirect_to root_path, flash: { success: t('auth.failure.already_authenticated') } if current_user
   end
 
   def create
-    return redirect_to root_path, flash: { success: t('auth.failure.already_authenticated') } if current_user
     user = User.authenticate(user_params[:email], user_params[:password])
     if user
       session[:user_id] = user.id
