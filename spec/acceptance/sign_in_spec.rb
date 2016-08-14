@@ -7,7 +7,7 @@ feature 'User sign in' do
     sign_in user
 
     expect(page).to have_content I18n.t('auth.sessions.signed_in')
-    expect(current_path).to eq root_path
+    expect(current_path).to eq my_tasks_path
   end
 
   scenario 'Non-registered user try to sign in' do

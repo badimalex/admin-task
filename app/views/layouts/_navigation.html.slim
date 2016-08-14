@@ -11,10 +11,8 @@ nav.navbar.navbar-default
       ul.nav.navbar-nav
         li
           a href="#"  Home
-        li
-          a href="#"  About
-        li
-          a href="#"  Contact
+        -if current_user
+          li= link_to t('task.my'), my_tasks_path
       ul.nav.navbar-nav.navbar-right
         -if current_user
           li= link_to t('auth.sign_out_link'), sessions_path, method: :delete

@@ -2,6 +2,9 @@
 ru:
   activerecord:
     attributes:
+      task:
+        name: 'Название'
+        description: 'Описание'
       user:
         email: 'Email'
         password: 'Пароль'
@@ -271,6 +274,10 @@ ru:
       long: "%d %B %Y, %H:%M"
       short: "%d %b, %H:%M"
     pm: вечера
+  task:
+    my: 'Мои задачи'
+    add: 'Добавить задачу'
+    created: 'Задача успешно создана'
   post:
     title: 'Заголовок'
     tag_list: 'Тэги (разделенные через запятую)'

@@ -9,7 +9,7 @@ module Web
       user = User.authenticate(user_params[:email], user_params[:password])
       if user
         session[:user_id] = user.id
-        redirect_to root_path, flash: {success: t('auth.sessions.signed_in')}
+        redirect_to my_tasks_path, flash: {success: t('auth.sessions.signed_in')}
       else
         redirect_to new_sessions_path, flash: {success: t('auth.failure.invalid', {authentication_keys: :email})}
       end

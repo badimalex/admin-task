@@ -11,7 +11,7 @@ module Web
     helper_method :current_user
 
     def authorize
-      # redirect_to new_session_path unless current_user
+      redirect_to new_sessions_path unless current_user
     end
 
     def already_authenticated

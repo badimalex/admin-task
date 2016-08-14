@@ -3,18 +3,8 @@
     - @user.errors.full_messages.each do |error_message|
       p.bg-danger= error_message
 
-= simple_form_for @user do |f|
-  p
-    = f.label :email
-    br/
-    = f.text_field :email
-  p
-    = f.label :password
-    br/
-    = f.password_field :password
-  p
-    = f.label :password_confirmation
-    br/
-    = f.password_field :password_confirmation
-  p
-    = f.submit t('auth.sign_up')
+= bootstrap_form_for @user do |f|
+  = f.text_field :email, autofocus: true
+  = f.password_field :password
+  = f.password_field :password_confirmation
+  = f.submit t('auth.sign_up')

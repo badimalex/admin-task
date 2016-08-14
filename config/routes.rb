@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
     scope module: :dashboard do
       root 'tasks#index'
+      resources :tasks
+      resources :my_tasks
     end
   end
 end

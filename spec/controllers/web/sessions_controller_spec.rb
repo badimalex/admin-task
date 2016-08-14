@@ -67,8 +67,8 @@ RSpec.describe Web::SessionsController, type: :controller do
           post :create, user: attributes_for(:user)
         end
 
-        it 'redirect to show view' do
-          expect(response).to redirect_to root_path
+        it 'redirect to my_tasks_path' do
+          expect(response).to redirect_to my_tasks_path
         end
 
         it 'set session[:user_id]' do
