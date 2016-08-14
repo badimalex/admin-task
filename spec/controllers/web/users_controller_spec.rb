@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe Web::UsersController, type: :controller do
   describe 'user access' do
     before do
       @user = create(:user)

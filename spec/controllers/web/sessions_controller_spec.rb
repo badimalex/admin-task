@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SessionsController, type: :controller do
+RSpec.describe Web::SessionsController, type: :controller do
   describe 'user access' do
     before do
       @user = create(:user)
