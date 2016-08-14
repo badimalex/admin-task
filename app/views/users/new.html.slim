@@ -1,9 +1,9 @@
-= form_for @user do |f|
-  - if @user.errors.any?
-    .error_messages
-      ul
-        - @user.errors.full_messages.each do |error_message|
-          li= error_message
+- if @user.errors.any?
+  .error_messages
+    - @user.errors.full_messages.each do |error_message|
+      p.bg-danger= error_message
+
+= simple_form_for @user do |f|
   p
     = f.label :email
     br/

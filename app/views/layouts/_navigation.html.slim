@@ -1,0 +1,23 @@
+nav.navbar.navbar-default
+  .container
+    .navbar-header
+      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href="#"  Project name
+    #navbar.navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li
+          a href="#"  Home
+        li
+          a href="#"  About
+        li
+          a href="#"  Contact
+      ul.nav.navbar-nav.navbar-right
+        -if current_user
+          li= link_to t('auth.sign_out_link'), sessions_path, method: :delete
+        -else
+          li= link_to t('auth.sign_in_link'), new_sessions_path
+          li= link_to t('auth.sign_up_link'), new_user_path

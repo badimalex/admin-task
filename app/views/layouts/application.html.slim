@@ -7,13 +7,9 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
-    -if current_user
-      = link_to t('auth.sign_out_link'), sessions_path, method: :delete
-    -else
-      = link_to t('auth.sign_in_link'), new_sessions_path
-      = link_to t('auth.sign_up_link'), new_user_path
+    = render 'layouts/navigation'
+    .container
+      - flash.each do |name, msg|
+        = content_tag :div, msg, :id => "flash_#{name}"
 
-    - flash.each do |name, msg|
-      = content_tag :div, msg, :id => "flash_#{name}"
-
-    = yield
+      = yield
