@@ -1,0 +1,4 @@
+ul.task-attachments
+  - @task.attachments.each do |a|
+    li { data-id = a.id }
+      = link_to a.file.identifier, a.file.url

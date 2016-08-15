@@ -15,6 +15,10 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
         expect(assigns(:task)).to be_a_new(Task)
       end
 
+      it 'builds new attachment for task' do
+        expect(assigns(:task).attachments.first).to be_a_new(Attachment)
+      end
+
       it 'renders the :new template' do
         expect(response).to render_template :new
       end
@@ -57,6 +61,16 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
       it 'redirects to login' do
         post :create, task: attributes_for(:task)
         expect(response).to redirect_to new_sessions_path
+      end
+    end
+
+    describe 'GET #show' do
+      let(:task) { create(:task) }
+
+      before { get :show, id: task }
+
+      it 'assigns the requested task to @task' do
+        expect(assigns(:task)).to eq task
       end
     end
   end

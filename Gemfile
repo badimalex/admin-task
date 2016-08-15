@@ -56,3 +56,4 @@ end
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'bootstrap_form'
+gem 'carrierwave'

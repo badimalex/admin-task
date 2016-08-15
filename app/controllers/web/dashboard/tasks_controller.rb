@@ -1,14 +1,17 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
-  skip_before_action :authorize, only: [:index]
+  skip_before_action :authorize, only: [:index, :show]
+  before_action :load_task, only: [:show]
 
   def index
   end
 
   def new
     @task = Task.new
+    @task.attachments.build
   end
 
   def show
+    puts @task.attachments.inspect
   end
 
   def create
@@ -20,7 +23,13 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
     end
   end
 
+  private
+
   def task_params
-    params.require(:task).permit(:name, :description)
+    params.require(:task).permit(:name, :description, attachments_attributes: [:file])
+  end
+
+  def load_task
+    @task = Task.find(params[:id])
   end
 end

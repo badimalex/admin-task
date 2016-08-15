@@ -2,6 +2,8 @@
 ru:
   activerecord:
     attributes:
+      attachment:
+        file: 'Файл'
       task:
         name: 'Название'
         description: 'Описание'
