@@ -1,6 +1,15 @@
 ---
 ru:
   activerecord:
+    state_machines:
+      task:
+        states:
+          new: "Новая"
+          started: "В работе"
+          finished: "Завершена"
+        events:
+          start: "Начать"
+          finish: "Завершить"
     attributes:
       attachment:
         file: 'Файл'
@@ -277,6 +286,7 @@ ru:
       short: "%d %b, %H:%M"
     pm: вечера
   task:
+    my: 'Создана'
     my: 'Мои задачи'
     add: 'Добавить задачу'
     created: 'Задача успешно создана'

@@ -6,4 +6,8 @@ div.panel.panel-default
     table.tasks.table.table-bordered
       - @tasks.each do |task|
         tr
+          td= task.id
           td= link_to task.name, task
+          td= task.description
+          td= task.human_state_name
+          td= task.created_at.strftime("%d.%m.%Y")

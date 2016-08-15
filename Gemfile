@@ -39,6 +39,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'state_machine_rspec'
   gem 'simplecov', require: false
   gem 'capybara'
   gem 'shoulda-matchers'
@@ -57,3 +58,4 @@ gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'bootstrap_form'
 gem 'carrierwave'
+gem 'state_machines-activerecord'

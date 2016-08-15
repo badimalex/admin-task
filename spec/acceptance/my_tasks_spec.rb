@@ -20,8 +20,14 @@ feature 'Create task' do
     scenario 'sees your tasks' do
       click_on I18n.t('task.my')
 
-      my_tasks.each do |task|
-        expect(page).to have_link(task.name)
+      within 'table.tasks' do
+        my_tasks.each do |task|
+          expect(page).to have_content(task.id)
+          expect(page).to have_link(task.name)
+          expect(page).to have_content(task.description)
+          expect(page).to have_content(I18n.t('activerecord.state_machines.task.states.new'))
+          expect(page).to have_content(task.created_at.strftime("%d.%m.%Y"))
+        end
       end
     end
 
