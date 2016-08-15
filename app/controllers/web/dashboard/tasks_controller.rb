@@ -3,6 +3,7 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   before_action :load_task, only: [:show]
 
   def index
+    @tasks = Task.all
   end
 
   def new

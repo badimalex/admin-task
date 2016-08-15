@@ -1,2 +1,11 @@
-h1="Tasks#index"
-p="Find me in app/views/tasks/index.html.erb"
+- if @tasks.empty?
+  p = 'Is no tasks'
+- else
+  .table-responsive
+      table.tasks.table.table-bordered
+        - @tasks.each do |task|
+          tr
+            td= task.id
+            td= task.created_at.strftime("%d.%m.%Y")
+            td= link_to task.name, task
+            td= task.user.email

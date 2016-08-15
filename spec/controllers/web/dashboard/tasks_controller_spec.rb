@@ -1,12 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Web::Dashboard::TasksController, type: :controller do
+
+  shared_examples_for 'public access to tasks' do
+    describe 'GET #index' do
+      let(:tasks) { create_list(:task, 2) }
+
+      before { get :index }
+
+      it 'populates an array of all tasks' do
+        expect(assigns(:tasks)).to match_array(tasks)
+      end
+
+      it 'renders index view' do
+        expect(response).to render_template :index
+      end
+    end
+  end
+
   describe 'user access' do
     before do
       @user = create(:user)
       session[:user_id] = @user.id
       allow(controller).to receive(:current_user).and_return(@user)
     end
+
+    it_behaves_like 'public access to tasks'
 
     describe 'GET #new' do
       before { get :new }
@@ -50,6 +69,8 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
   end
 
   describe 'guest access' do
+    it_behaves_like 'public access to tasks'
+
     describe 'GET #new' do
       it 'redirect to sign in' do
         get :new
