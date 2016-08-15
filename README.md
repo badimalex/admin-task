@@ -1,0 +1,2 @@
+[![Coverage Status](https://coveralls.io/repos/github/badimalex/admin-task/badge.svg?branch=master)](https://coveralls.io/github/badimalex/admin-task?branch=master)
+[![Build Status](https://travis-ci.org/badimalex/admin-task.svg?branch=master)](https://travis-ci.org/badimalex/admin-task)
