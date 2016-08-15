@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :task do
-    name "MyString"
-    description "MyText"
+    sequence(:name) { |i| "Task name #{i}" }
+    sequence(:description) { |i| "Task description #{i}" }
     user
   end
 

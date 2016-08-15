@@ -58,13 +58,13 @@ RSpec.describe Web::SessionsController, type: :controller do
       it 'try to authenticate user' do
         user
         expect(User).to receive(:authenticate).with(user.email, user.password)
-        post :create, user: attributes_for(:user)
+        post :create, user: {email: user.email, password: user.password}
       end
 
       context 'with valid attributes' do
         before do
           user
-          post :create, user: attributes_for(:user)
+          post :create, user: {email: user.email, password: user.password}
         end
 
         it 'redirect to my_tasks_path' do

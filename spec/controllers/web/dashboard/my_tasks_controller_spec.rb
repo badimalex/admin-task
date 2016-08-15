@@ -9,9 +9,24 @@ RSpec.describe Web::Dashboard::MyTasksController, type: :controller do
     end
 
     describe 'GET #index' do
-      before { get :index }
+      let(:tasks) { create_list(:task, 2, user: @user) }
+      let(:other_tasks) { create_list(:task, 2) }
 
-      it 'renders the :new template' do
+      before do
+        tasks
+        other_tasks
+        get :index
+      end
+
+      it 'populates an array of all task' do
+        expect(assigns(:tasks)).to match_array(tasks)
+      end
+
+      it 'not include in array other user task' do
+        expect(assigns(:tasks)).to_not include(other_tasks)
+      end
+
+      it 'renders index view' do
         expect(response).to render_template :index
       end
     end

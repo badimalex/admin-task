@@ -1,1 +1,9 @@
-= link_to t('task.add'), new_task_path, class: 'btn btn-primary'
+div.panel.panel-default
+  .panel-body
+    = link_to t('task.add'), new_task_path, class: 'btn btn-primary'
+
+  .table-responsive
+    table.tasks.table.table-bordered
+      - @tasks.each do |task|
+        tr
+          td= link_to task.name, task

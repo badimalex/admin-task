@@ -1,8 +1,5 @@
-module Web
-  module Dashboard
-    class MyTasksController < BaseController
-      def index
-      end
-    end
+class Web::Dashboard::MyTasksController < Web::Dashboard::BaseController
+  def index
+    @tasks = current_user.tasks
   end
 end
