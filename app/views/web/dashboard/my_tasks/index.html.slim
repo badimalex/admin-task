@@ -11,3 +11,4 @@ div.panel.panel-default
           td= task.description
           td= task.human_state_name
           td= task.created_at.strftime("%d.%m.%Y")
+          td= link_to t('actions.edit'), edit_task_path(task)

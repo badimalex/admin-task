@@ -1,6 +1,7 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   skip_before_action :authorize, only: [:index, :show]
-  before_action :load_task, only: [:show]
+  before_action :load_task, only: [:show, :edit, :update]
+  before_action :check_owner, only: [:edit, :update]
 
   def index
     @tasks = Task.all
@@ -9,6 +10,17 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   def new
     @task = Task.new
     @task.attachments.build
+  end
+
+  def edit
+  end
+
+  def update
+    if @task.update(task_params)
+      redirect_to @task
+    else
+      redirect_to edit_task_path(@task)
+    end
   end
 
   def show
@@ -32,5 +44,9 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
 
   def load_task
     @task = Task.find(params[:id])
+  end
+
+  def check_owner
+    redirect_to root_path, flash: {alert: t('errors.non_owner') } unless current_user.author_of?(@task)
   end
 end

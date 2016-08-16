@@ -66,6 +66,82 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
         end
       end
     end
+
+    describe 'GET #edit' do
+      let(:task) { create(:task, user: @user) }
+
+      context 'when user is owner' do
+        before { get :edit, id: task }
+
+        it 'assigns the requested task to @task' do
+          expect(assigns(:task)).to eq task
+        end
+
+        it 'renders the :edit template' do
+          expect(response).to render_template :edit
+        end
+      end
+
+      context 'when user is not the owner' do
+        let(:another_user) { create(:user) }
+        let(:another_task) { create(:task, user: another_user) }
+
+        it 'redirect to root_path' do
+          get :edit, id: another_task
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+
+    describe 'PATCH #update' do
+      let(:task) { create(:task, user: @user, name: 'Original name', description: 'Original description') }
+
+      context 'with valid attributes' do
+        it 'assigns the task post to @task' do
+          patch :update, id: task, task: attributes_for(:task)
+          expect(assigns(:task)).to eq task
+        end
+
+        it 'updates task in the database' do
+          patch :update, id: task, task: { name: 'new name', description: 'new description' }
+          task.reload
+          expect(task.name).to eq 'new name'
+          expect(task.description).to eq 'new description'
+        end
+
+        it 'redirects to the updated task' do
+          patch :update, id: task, task: attributes_for(:task)
+          expect(response).to redirect_to task
+        end
+      end
+
+      context 'with invalid attributes' do
+        before { patch :update, id: task, task: attributes_for(:invalid_task) }
+
+        it 'does not update task' do
+          task.reload
+          expect(task.name).to eq 'Original name'
+          expect(task.description).to eq 'Original description'
+        end
+
+        it 'redirects to the #edit' do
+          expect(response).to redirect_to edit_task_path(task)
+        end
+      end
+
+      context 'when not the owner' do
+        let(:another_user) { create(:user) }
+        let(:another_task) { create(:task, user: another_user, description: 'Original description') }
+
+        it "doesn't update task" do
+          another_task
+          patch :update, id: another_task, post: { name: 'new name', description: 'new description' }
+
+          another_task.reload
+          expect(another_task.description).to eq 'Original description'
+        end
+      end
+    end
   end
 
   describe 'guest access' do
@@ -92,6 +168,14 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
 
       it 'assigns the requested task to @task' do
         expect(assigns(:task)).to eq task
+      end
+    end
+
+    describe 'GET #edit' do
+      it 'redirects to login' do
+        task = create(:task)
+        get :edit, id: task
+        expect(response).to redirect_to(new_sessions_path)
       end
     end
   end

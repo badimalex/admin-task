@@ -154,6 +154,7 @@ ru:
       year: Год
   errors:
     format: "%{attribute} %{message}"
+    non_owner: 'У вас нет доступа к данному действию'
     messages:
       accepted: нужно подтвердить
       blank: не может быть пустым
