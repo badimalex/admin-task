@@ -1,7 +1,7 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   skip_before_action :authorize, only: [:index, :show]
-  before_action :load_task, only: [:show, :edit, :update]
-  before_action :check_owner, only: [:edit, :update]
+  before_action :load_task, only: [:show, :edit, :update, :destroy]
+  before_action :check_owner, only: [:edit, :update, :destroy]
 
   def index
     @tasks = Task.all
@@ -34,6 +34,11 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
     else
       render :new
     end
+  end
+
+  def destroy
+    @task.destroy
+    redirect_to my_tasks_path, flash: { notice: t('task.removed') }
   end
 
   private

@@ -19,6 +19,8 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
   end
 
   describe 'user access' do
+    let(:task) { create(:task, user: @user, name: 'Original name', description: 'Original description') }
+
     before do
       @user = create(:user)
       session[:user_id] = @user.id
@@ -68,8 +70,6 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
     end
 
     describe 'GET #edit' do
-      let(:task) { create(:task, user: @user) }
-
       context 'when user is owner' do
         before { get :edit, id: task }
 
@@ -94,8 +94,6 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
     end
 
     describe 'PATCH #update' do
-      let(:task) { create(:task, user: @user, name: 'Original name', description: 'Original description') }
-
       context 'with valid attributes' do
         it 'assigns the task post to @task' do
           patch :update, id: task, task: attributes_for(:task)
@@ -142,6 +140,34 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
         end
       end
     end
+
+    describe 'Delete #destroy' do
+      context 'Author deletes own task' do
+        it 'deletes post' do
+          task
+          expect { delete :destroy, id: task }.to change(@user.tasks, :count).by(-1)
+        end
+        it 'redirect to my_tasks_path' do
+          delete :destroy, id: task
+          expect(response).to redirect_to my_tasks_path
+        end
+      end
+
+      context 'Author deletes another author task' do
+        let(:another_user) { create(:user) }
+        let(:another_task) { create(:task, user: another_user) }
+
+        it "doesn't deletes a task" do
+          another_task
+          expect { delete :destroy, id: another_task }.to_not change(Task, :count)
+        end
+
+        it 'redirect to root_path' do
+          delete :destroy, id: another_task
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
   end
 
   describe 'guest access' do
@@ -175,6 +201,13 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
       it 'redirects to login' do
         task = create(:task)
         get :edit, id: task
+        expect(response).to redirect_to(new_sessions_path)
+      end
+    end
+
+    describe 'DELETE #destroy' do
+      it 'redirects to login' do
+        delete :destroy, id: create(:task)
         expect(response).to redirect_to(new_sessions_path)
       end
     end
