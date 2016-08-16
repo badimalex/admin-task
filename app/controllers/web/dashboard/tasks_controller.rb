@@ -1,7 +1,6 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   skip_before_action :authorize, only: [:index, :show]
   before_action :load_task, only: [:show, :edit, :update, :destroy]
-  # before_action :check_owner, only: [:edit, :update, :destroy]
 
   authorize_resource
 

@@ -22,16 +22,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe '#author_of?' do
-    let(:user) { create(:user) }
-    let(:task) { create(:task, user: user) }
-
-    let(:another_user) { create(:user) }
-    let(:another_task) { create(:task, user: another_user) }
-
-    it 'returns true, if is author of task' do
-      expect(user).to be_author_of(task)
-    end
-  end
 end

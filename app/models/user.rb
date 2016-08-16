@@ -14,8 +14,4 @@ class User < ActiveRecord::Base
       nil
     end
   end
-
-  def author_of?(entity)
-    id == entity.user_id
-  end
 end
