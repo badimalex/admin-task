@@ -2,10 +2,36 @@ require 'rails_helper'
 
 feature 'Create task' do
   let(:user) { create(:user) }
+  let(:admin) { create(:user, admin: true) }
   let(:my_tasks) { create_list(:task, 2, user: user) }
   let(:other_tasks) { create_list(:task, 2) }
 
-  context 'Authenticated' do
+  context 'Admin' do
+    before do
+      my_tasks
+      other_tasks
+
+      sign_in admin
+    end
+
+    scenario 'sees all tasks' do
+      all_tasks = my_tasks | other_tasks
+      click_on I18n.t('task.my')
+
+      within 'table.tasks' do
+        all_tasks.each do |task|
+          expect(page).to have_content(task.id)
+          expect(page).to have_link(task.name)
+          expect(page).to have_content(task.description)
+          expect(page).to have_content(task.user.email)
+          expect(page).to have_content(I18n.t('activerecord.state_machines.task.states.new'))
+          expect(page).to have_content(task.created_at.strftime("%d.%m.%Y"))
+        end
+      end
+    end
+  end
+
+  context 'Authenticated user' do
     before do
       my_tasks
       other_tasks

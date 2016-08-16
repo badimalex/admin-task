@@ -8,6 +8,8 @@ div.panel.panel-default
         tr
           td= task.id
           td= link_to task.name, task
+          - if current_user.admin?
+            td= task.user.email
           td= task.description
           td= task.human_state_name
           td= task.created_at.strftime("%d.%m.%Y")
