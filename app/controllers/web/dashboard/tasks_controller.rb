@@ -5,7 +5,7 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   authorize_resource
 
   def index
-    @tasks = Task.all
+    @tasks = Task.latest
   end
 
   def new

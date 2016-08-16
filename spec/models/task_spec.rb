@@ -14,4 +14,15 @@ RSpec.describe Task, type: :model do
       expect(subject.state).to eq 'new'
     end
   end
+
+  describe '.latest' do
+    before do
+      @first = create(:task, created_at: 1.day.ago)
+      @last  = create(:task, created_at: 4.day.ago)
+    end
+
+    it 'should return tasks in the correct order' do
+      expect(Task.latest).to eq [@first, @last]
+    end
+  end
 end
