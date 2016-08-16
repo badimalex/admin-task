@@ -1,6 +1,6 @@
 class Task < ActiveRecord::Base
   belongs_to :user
-  has_many :attachments
+  has_many :attachments, dependent: :destroy
 
   scope :latest, -> { order('created_at DESC') }
 
