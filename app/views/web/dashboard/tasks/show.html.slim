@@ -1,7 +1,13 @@
+p=@task.id
 h2=@task.name
 p=@task.description
-p=@task.user.email
+- if current_user.admin?
+  p=@task.user.email
+p=@task.created_at.strftime("%d.%m.%Y")
 ul.task-attachments
   - @task.attachments.each do |a|
     li { data-id = a.id }
-      = link_to a.file.identifier, a.file.url
+      - if a.file.content_type.start_with? 'image'
+        = link_to image_tag(a.file.url, height: '100', width: '100'), a.file.url
+      - else
+        = link_to a.file.identifier, a.file.url
