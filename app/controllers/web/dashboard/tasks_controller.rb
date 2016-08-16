@@ -18,7 +18,7 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
 
   def update
     if @task.update(task_params)
-      redirect_to @task
+      redirect_to task_params[:state].nil? ? @task : my_tasks_path
     else
       redirect_to edit_task_path(@task)
     end
@@ -44,7 +44,7 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   private
 
   def task_params
-    params.require(:task).permit(:user_id, :name, :description, attachments_attributes: [:file])
+    params.require(:task).permit(:user_id, :name, :state, :description, attachments_attributes: [:file])
   end
 
   def load_task
