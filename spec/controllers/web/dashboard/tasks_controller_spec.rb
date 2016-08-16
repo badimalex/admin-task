@@ -18,6 +18,25 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
     end
   end
 
+  describe 'admin access' do
+    let(:other_user) { create(:user) }
+
+    before do
+      other_user
+      @user = create(:user, admin: true)
+      session[:user_id] = @user.id
+      allow(controller).to receive(:current_user).and_return(@user)
+    end
+
+    describe 'POST #create' do
+      context 'with valid attributes' do
+        it 'saves the new task in the database' do
+          expect { post :create, task: attributes_for(:task).merge({user_id:other_user}) }.to change(other_user.tasks, :count).by(1)
+        end
+      end
+    end
+  end
+
   describe 'user access' do
     let(:task) { create(:task, user: @user, name: 'Original name', description: 'Original description') }
 

@@ -9,8 +9,7 @@ nav.navbar.navbar-default
       a.navbar-brand href="#"  Project name
     #navbar.navbar-collapse.collapse
       ul.nav.navbar-nav
-        li
-          a href="#"  Home
+        li= link_to t('breadcrumbs.root'), root_path
         -if current_user
           li= link_to t('task.my'), my_tasks_path
       ul.nav.navbar-nav.navbar-right

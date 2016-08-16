@@ -3,6 +3,7 @@
     p.bg-danger= error_message
 
 = bootstrap_form_for @task do |f|
+  = f.select :user_id, options_from_collection_for_select(User.all, "id", "email", selected: @task.user_id) if can? :create, @task, :user_id
   = f.text_field :name
   = f.text_area :description
   = f.fields_for :attachments do |a|

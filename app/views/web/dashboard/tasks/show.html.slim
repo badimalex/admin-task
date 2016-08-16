@@ -1,5 +1,6 @@
 h2=@task.name
 p=@task.description
+p=@task.user.email
 ul.task-attachments
   - @task.attachments.each do |a|
     li { data-id = a.id }

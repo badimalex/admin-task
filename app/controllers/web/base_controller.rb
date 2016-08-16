@@ -17,5 +17,9 @@ module Web
     def already_authenticated
       redirect_to root_path, flash: {alert: t('auth.failure.already_authenticated')} if current_user
     end
+
+    rescue_from CanCan::AccessDenied do |e|
+      redirect_to root_url, alert: e.message
+    end
   end
 end

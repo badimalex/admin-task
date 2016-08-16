@@ -1,7 +1,9 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   skip_before_action :authorize, only: [:index, :show]
   before_action :load_task, only: [:show, :edit, :update, :destroy]
-  before_action :check_owner, only: [:edit, :update, :destroy]
+  # before_action :check_owner, only: [:edit, :update, :destroy]
+
+  authorize_resource
 
   def index
     @tasks = Task.all
@@ -24,11 +26,10 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   end
 
   def show
-    puts @task.attachments.inspect
   end
 
   def create
-    @task = current_user.tasks.new(task_params)
+    @task = current_user.admin? ? Task.new(task_params) : current_user.tasks.new(task_params)
     if @task.save
       redirect_to @task, flash: {success: t('task.created')}
     else
@@ -44,14 +45,10 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   private
 
   def task_params
-    params.require(:task).permit(:name, :description, attachments_attributes: [:file])
+    params.require(:task).permit(:user_id, :name, :description, attachments_attributes: [:file])
   end
 
   def load_task
     @task = Task.find(params[:id])
-  end
-
-  def check_owner
-    redirect_to root_path, flash: {alert: t('errors.non_owner') } unless current_user.author_of?(@task)
   end
 end
