@@ -19,8 +19,4 @@ class Task < ActiveRecord::Base
       transition :started=>:finished
     end
   end
-
-  def change_state
-    can_start? ? start! : finish!
-  end
 end

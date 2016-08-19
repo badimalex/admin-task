@@ -42,14 +42,14 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   end
 
   def change_state
-    @task.change_state
+    @task.fire_state_event(task_params[:state])
     redirect_to my_tasks_path
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:user_id, :name, :description, attachments_attributes: [:file])
+    params.require(:task).permit(:user_id, :name, :state, :description, attachments_attributes: [:file])
   end
 
   def load_task

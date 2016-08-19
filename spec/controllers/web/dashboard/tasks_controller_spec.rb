@@ -91,12 +91,12 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
 
     describe 'POST #change_state' do
       it 'try to change state' do
-        expect_any_instance_of(Task).to receive(:change_state)
-        post :change_state, id: task
+        expect_any_instance_of(Task).to receive(:fire_state_event).with('start')
+        post :change_state, id: task, task: { state: 'start' }
       end
 
       it 'redirect to #my_tasks_path' do
-        post :change_state, id: task
+        post :change_state, id: task, task: { state: 'start' }
         expect(response).to redirect_to my_tasks_path
       end
     end

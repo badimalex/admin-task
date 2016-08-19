@@ -14,9 +14,9 @@ div.panel.panel-default
           td
             = task.human_state_name
             br
-            = link_to(t('activerecord.state_machines.task.events.start'), change_state_task_path(task), method: 'post') if task.new?
+            = link_to(t('activerecord.state_machines.task.events.start'), change_state_task_path(task, 'task[state]' => 'start'), method: 'post') if task.new?
             br
-            = link_to(t('activerecord.state_machines.task.events.finish'), change_state_task_path(task), method: 'post') if task.started?
+            = link_to(t('activerecord.state_machines.task.events.finish'), change_state_task_path(task, 'task[state]' => 'finish'), method: 'post') if task.started?
           td= task.created_at.strftime("%d.%m.%Y")
           td= link_to t('actions.edit'), edit_task_path(task)
           td= link_to t('actions.delete'), task_path(task), method: 'delete'
