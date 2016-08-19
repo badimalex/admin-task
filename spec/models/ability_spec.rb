@@ -28,5 +28,8 @@ describe Ability do
 
     it { should be_able_to :destroy, create(:task, user: user), user: user }
     it { should_not be_able_to :destroy, create(:task, user: other), user: user }
+
+    it { should be_able_to :change_state, create(:task, user: user), user: user }
+    it { should_not be_able_to :change_state, create(:task, user: other), user: user }
   end
 end

@@ -25,4 +25,24 @@ RSpec.describe Task, type: :model do
       expect(Task.latest).to eq [@first, @last]
     end
   end
+
+  describe '#change_state' do
+    context 'start' do
+      it 'change state to started' do
+        task = create(:task)
+        expect(task.state).to eq 'new'
+        task.change_state
+        expect(task.state).to eq 'started'
+      end
+    end
+
+    context 'finish' do
+      it 'change state to finish' do
+        task = create(:task, state: 'started')
+        expect(task.state).to eq 'started'
+        task.change_state
+        expect(task.state).to eq 'finished'
+      end
+    end
+  end
 end

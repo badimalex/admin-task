@@ -1,6 +1,6 @@
 class Web::Dashboard::TasksController < Web::Dashboard::BaseController
   skip_before_action :authorize, only: [:index, :show]
-  before_action :load_task, only: [:show, :edit, :update, :destroy]
+  before_action :load_task, only: [:show, :edit, :update, :destroy, :change_state]
 
   authorize_resource
 
@@ -18,7 +18,7 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
 
   def update
     if @task.update(task_params)
-      redirect_to task_params[:state].nil? ? @task : my_tasks_path
+      redirect_to @task
     else
       redirect_to edit_task_path(@task)
     end
@@ -41,10 +41,15 @@ class Web::Dashboard::TasksController < Web::Dashboard::BaseController
     redirect_to my_tasks_path, flash: { notice: t('task.removed') }
   end
 
+  def change_state
+    @task.change_state
+    redirect_to my_tasks_path
+  end
+
   private
 
   def task_params
-    params.require(:task).permit(:user_id, :name, :state, :description, attachments_attributes: [:file])
+    params.require(:task).permit(:user_id, :name, :description, attachments_attributes: [:file])
   end
 
   def load_task

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Web::Dashboard::TasksController, type: :controller do
+  let(:task) { create(:task) }
 
   shared_examples_for 'public access to tasks' do
     describe 'GET #index' do
@@ -85,6 +86,18 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
           post :create, task: attributes_for(:invalid_task)
           expect(response).to render_template :new
         end
+      end
+    end
+
+    describe 'POST #change_state' do
+      it 'try to change state' do
+        expect_any_instance_of(Task).to receive(:change_state)
+        post :change_state, id: task
+      end
+
+      it 'redirect to #my_tasks_path' do
+        post :change_state, id: task
+        expect(response).to redirect_to my_tasks_path
       end
     end
 
@@ -206,9 +219,14 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
       end
     end
 
-    describe 'GET #show' do
-      let(:task) { create(:task) }
+    describe 'POST #change_state' do
+      it 'redirects to login' do
+        post :change_state, id: task
+        expect(response).to redirect_to new_sessions_path
+      end
+    end
 
+    describe 'GET #show' do
       before { get :show, id: task }
 
       it 'assigns the requested task to @task' do
@@ -218,7 +236,6 @@ RSpec.describe Web::Dashboard::TasksController, type: :controller do
 
     describe 'GET #edit' do
       it 'redirects to login' do
-        task = create(:task)
         get :edit, id: task
         expect(response).to redirect_to(new_sessions_path)
       end

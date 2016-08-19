@@ -10,6 +10,7 @@ class Ability
       can :create, Task, user: user
       can :update, Task, user: user
       can :destroy, Task, user: user
+      can :change_state, Task, user: user
     end
   end
 end

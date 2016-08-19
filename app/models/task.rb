@@ -10,5 +10,17 @@ class Task < ActiveRecord::Base
 
   state_machine :state, initial: :new do
     state :started, :finished
+
+    event :start do
+      transition :new=>:started
+    end
+
+    event :finish do
+      transition :started=>:finished
+    end
+  end
+
+  def change_state
+    can_start? ? start! : finish!
   end
 end
